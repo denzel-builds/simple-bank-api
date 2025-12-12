@@ -19,3 +19,16 @@ class BankAccount(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.balance}"
+    
+class Transaction(models.Model):
+    # Who sent the money? (If null, it might be a cash deposit from the bank)
+    sender = models.ForeignKey(BankAccount, on_delete=models.CASCADE, related_name='sent_transactions', null=True, blank=True)
+    
+    # Who received the money?
+    receiver = models.ForeignKey(BankAccount, on_delete=models.CASCADE, related_name='received_transactions')
+    
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"R{self.amount} from {self.sender} to {self.receiver}"
