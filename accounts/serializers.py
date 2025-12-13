@@ -15,3 +15,7 @@ class BankAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankAccount
         fields = ['user','account_number', 'balance']
+
+class TransferSerializer(serializers.Serializer):
+    account_number = serializers.CharField()
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
